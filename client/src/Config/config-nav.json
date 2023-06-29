@@ -1,0 +1,11 @@
+{
+    "unauthorized":[
+        ["/Posts","Posts"],
+        ["/SignIn","SignIn"]],
+
+
+    "authorized":[
+        ["/Posts","Posts"],
+        ["/SignOut","SignOut"]]
+        
+}
