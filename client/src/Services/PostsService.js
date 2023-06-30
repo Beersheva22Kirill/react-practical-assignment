@@ -16,11 +16,46 @@ export default class PostsService {
         return data
     }
 
-    async getPostsByPage(){
+    async getPostsByPage(pageNumber){
 
-        const response = await fetch(this.#main_url + `post/`)
+        const response = await fetch(this.#main_url + `post/page/${pageNumber}`)
         const data = await response.json()
         return data
     }
+
+    async uploadImage(file, id){ //FEXME
+        const response = await fetch(this.#main_url + `post/${id}/picture`,{
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(file)
+        }) 
+        const data = await response.json()   
+    }
+
+    async deletePost(id){
+        const response = await fetch(this.#main_url + `post/${id}`,{
+            method: 'DELETE',
+        }) 
+        const data = await response.json()   
+    }
+
+    async updatePost(id,postForUpdate){
+        const post = await this.getPostById(id)
+
+        const response = await fetch(this.#main_url + `post/${id}`,{
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(postForUpdate)
+        }) 
+        const data = await response.json()  
+        return data 
+    }
+
+    async getPostById(id){
+            const response = await fetch(this.#main_url + `post/${id}`)
+            const data = await response.json()
+        return data;   
+    }   
+
 
 }

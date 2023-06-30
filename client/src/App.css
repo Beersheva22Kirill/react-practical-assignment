@@ -106,3 +106,46 @@ align-items: center;
 .preload-image{
     width: 20vw;
 }
+
+.list-of-pages{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item-of-pages{
+    font-size: 0.9em;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    list-style-type: none;
+}
+
+.item-of-pages:hover{
+    cursor: pointer;
+}
+
+.anchor-of-pages{
+    text-decoration: none;
+}
+
+.item-of-pages:hover{
+    background-color: chocolate;
+    color: white;
+    transition: 0.7s;
+
+    font-weight: bold;
+}
+
+@media(min-width: 650px){
+
+    .list-of-pages{
+        justify-content: center;
+    } 
+
+    .item-of-pages{
+        padding-left: 0.5vw;
+        padding-right: 0.5vw;
+        list-style-type: none;
+    }
+
+}

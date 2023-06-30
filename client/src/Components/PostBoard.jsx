@@ -1,11 +1,17 @@
-import PostsService from "../Services/PostsService";
-import { useEffect, useMemo, useState, useRef} from "react";
 import Post from "./Post";
+import { postService } from "../Config/service-config";
 
 
 
-export default function PostBoard ({array}){
+export default function PostBoard ({array, callBackDel, callBackLikeFn}){
     
+    function deletePost (id) {
+        callBackDel(id)
+    }
+
+    function likeDislike(id,title,like) {
+        callBackLikeFn(id,title,like)
+    }
 
     const style = {display: "flex",
                     flexDirection: "row",
@@ -16,9 +22,9 @@ export default function PostBoard ({array}){
 }
    
     return <div style={style}>
-            {array.map(post => <Post key={post.id} autor={post.username} date={post.date} 
-                                          title={post.title} likes={post.likes.length} 
-                                          dislikes={post.dislikes.length}>
+            {array.map(post => <Post key={post.id} id={post.id} autor={post.username} date={post.date} 
+                                          title={post.title} likes={post.likes} 
+                                          dislikes={post.dislikes} callBackDel={deletePost} callBackLike={likeDislike}>
                                     </Post>)}
             </div>
 }

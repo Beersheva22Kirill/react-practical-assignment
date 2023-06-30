@@ -7,11 +7,7 @@ export default function Navigator ({navItem, currentUser}) {
     const location = useLocation();
  
     useEffect(() => {
-        let index = navItem.findIndex(r => r[0] === location.pathname);
-        if(index < 0){
-          index = 0;
-        }
-        navigate(navItem[index][0]);
+        navigate(navItem[0][0]);
     },[navItem])
 
     return <div>
