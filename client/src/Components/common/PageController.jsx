@@ -30,8 +30,7 @@ const PageController = ({totalpages,currentPage,callback}) => {
                 <li onClick = {() => callback(totalpages)} className = "item-of-pages">{totalpages}</li> 
                 <li onClick={() => callback(++currentPage)} className = "item-of-pages">Next</li>   
             </ul>
-
-    
+   
 }
 
 export default PageController

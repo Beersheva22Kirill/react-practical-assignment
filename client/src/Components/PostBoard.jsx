@@ -22,9 +22,7 @@ export default function PostBoard ({array, callBackDel, callBackLikeFn}){
 }
    
     return <div style={style}>
-            {array.map(post => <Post key={post.id} id={post.id} autor={post.username} date={post.date} 
-                                          title={post.title} likes={post.likes} 
-                                          dislikes={post.dislikes} callBackDel={deletePost} callBackLike={likeDislike}>
+            {array.map(post => <Post key={post.id} post={post} callBackDel={deletePost} callBackLike={likeDislike}>
                                     </Post>)}
             </div>
 }

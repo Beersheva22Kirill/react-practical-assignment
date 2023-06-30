@@ -61,7 +61,7 @@ align-items: center;
     width: 100%;
 }
 
-.post-text-place{
+.post-comments-place{
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -91,15 +91,30 @@ align-items: center;
 .button-place{
     width: 100%;
     display: flex;
-    justify-content: space-around;
 }
 
+.button-place-like{
+    width: 50%;
+    display: flex;
+    justify-content: left;
+}
+
+.button-place-coments{
+    width: 50%;
+    display: flex;
+    justify-content: right;
+}
+
+.button-open-coments{
+    margin-right: 10px;
+}
 .button-like{
     margin-left: 10px;
 }
 
+
 .button-dislike{
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 
@@ -107,6 +122,7 @@ align-items: center;
     width: 20vw;
 }
 
+/* pagination */
 .list-of-pages{
     display: flex;
     flex-direction: row;
@@ -120,32 +136,13 @@ align-items: center;
     list-style-type: none;
 }
 
-.item-of-pages:hover{
-    cursor: pointer;
-}
-
 .anchor-of-pages{
     text-decoration: none;
 }
 
 .item-of-pages:hover{
-    background-color: chocolate;
-    color: white;
-    transition: 0.7s;
-
-    font-weight: bold;
+    background-color: aquamarine;
+    transition: 1s;
+    cursor: pointer;
 }
-
-@media(min-width: 650px){
-
-    .list-of-pages{
-        justify-content: center;
-    } 
-
-    .item-of-pages{
-        padding-left: 0.5vw;
-        padding-right: 0.5vw;
-        list-style-type: none;
-    }
-
-}
+/* end pagination */

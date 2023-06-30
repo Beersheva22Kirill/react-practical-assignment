@@ -58,4 +58,20 @@ export default class PostsService {
     }   
 
 
+    async createComment(newComment){
+        const response = await fetch(this.#main_url + 'comment/',{
+                                    method: 'POST',
+                                    headers: {"Content-Type": "application/json"},
+                                    body: JSON.stringify(newComment)
+                                }) 
+            const data = await response.json()
+        return data;
+        }
+
+    async deleteComent(id){
+        const response = await fetch(this.#main_url + `comment/${id}`,{
+            method: 'DELETE',
+        }) 
+    }    
+
 }

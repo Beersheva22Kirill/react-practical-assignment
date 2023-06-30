@@ -23,6 +23,7 @@ export default function Posts({arrayPosts}) {
     const currentPage = useSelectorCurrentPageStatus()
     
     const [activeModal, setActiveModal] = useState(false)
+
     const [array, setArray] = useState([]) 
     const [totalPages, setTotalPages] = useState(0)
     const dispath = useDispatch();
@@ -54,22 +55,8 @@ export default function Posts({arrayPosts}) {
        
     }
 
-    async function deletePost(id){
-        await postService.deletePost(id)
-        dispath(renderStatusAction.setStatusRender(true))
-        console.log(id);
-    }
+    async function createComment(id,text) {
 
-    async function likeDislikeFn(id,like){
-        const response = await postService.getPostById(id)
-        const postForUpdate = response.result
-        if(like){
-            postForUpdate.likes.push(currentUser)
-        } else {
-            postForUpdate.dislikes.push(currentUser)
-        }
-        await postService.updatePost(id,postForUpdate)
-        dispath(renderStatusAction.setStatusRender(true))
     }
 
     async function callbackSearch(str) {
@@ -83,6 +70,7 @@ export default function Posts({arrayPosts}) {
     }
 
     const addForm = <FormAddPost currentUser={currentUser} callBackFn={newPost} callBackUploadImage={uploadImage}></FormAddPost>
+    
 
     return <div className = "post-area">  
             <ModalWindow active={activeModal} component={addForm} setActive={setActiveModal}></ModalWindow>
@@ -91,7 +79,7 @@ export default function Posts({arrayPosts}) {
                 <SearchComponent callbackFn={callbackSearch}></SearchComponent>
             </div>
             <div className="post-place">
-                <PostBoard array={arrayPosts} callBackDel={deletePost} callBackLikeFn={likeDislikeFn}></PostBoard>
+                <PostBoard array={arrayPosts}></PostBoard>
             </div> 
             <div>
                 <PageController totalpages={totalPages} currentPage={currentPage} callback={(callbackPaginator)}></PageController>
