@@ -1,5 +1,5 @@
 
-export default function ModalWindow({component,active,setActive}){
+export default function ModalWindow({component,active,setActive,closeArea}){
     const modalPlace = {position: "absolute",
                         width: "100%",
                         height: "100%",
@@ -26,7 +26,7 @@ export default function ModalWindow({component,active,setActive}){
                         }
 
     return <div style={modalPlace} hidden = {!active}>
-            <div style={style} onClick={() => setActive(false)} hidden = {!active}>
+            <div style={style} onClick={() => closeArea ? setActive(false) : setActive(true)} hidden = {!active}>
                 <div style={styleModal} onClick={(event) => event.stopPropagation()}>
                 {component}
                 </div>

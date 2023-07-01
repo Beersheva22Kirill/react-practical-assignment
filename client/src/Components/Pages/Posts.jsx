@@ -11,32 +11,52 @@ import { currentPageAction } from "../../Redux/slices/CurrentPageSlice";
 import PageController from "../common/PageController";
 import { renderStatusAction } from "../../Redux/slices/RenderStatusSlice";
 
-async function getAllPost(page) {
+async function getPostByPage(page) {
     const res = await postService.getPostsByPage(page);
+    return res  
+}
+
+async function getPostBySearch(keywords) {
+    const res = await postService.searchPost(keywords);
     return res  
 }
 
 export default function Posts({arrayPosts}) {
     const flagReduxStatusRender = useSelectorRenderStatus()
-
+    
     const currentUser = useSelectorUserState()
     const currentPage = useSelectorCurrentPageStatus()
     
     const [activeModal, setActiveModal] = useState(false)
-
+    const [search, setSearch] = useState(false)
+    const [keywords, setKeywords] = useState('')
     const [array, setArray] = useState([]) 
     const [totalPages, setTotalPages] = useState(0)
+
     const dispath = useDispatch();
     
     useEffect(()=> {
-        getAllPost(currentPage).then(response => {
-        setTotalPages(response.totalPages)
-        dispath(currentPageAction.setCurrentPage(response.page))
-          setArray(response.result);
-          console.log(array);
-            dispath(cashPostAction.setCashPost(array))
-            dispath(renderStatusAction.setStatusRender(false))
-              }).catch(() => setArray([]))
+        if(!search){
+            getPostByPage(currentPage).then(response => {
+                setTotalPages(response.totalPages)
+                dispath(currentPageAction.setCurrentPage(response.page))
+                  setArray(response.result);
+                  console.log(array);
+                  dispath(cashPostAction.setCashPost(array))
+                  dispath(renderStatusAction.setStatusRender(false))
+                      }).catch(() => setArray([]))
+        } else {
+            getPostBySearch(keywords).then(response => {
+                setTotalPages(response.totalPages)
+                dispath(currentPageAction.setCurrentPage(response.page))
+                  setArray(response.result);
+                  console.log(array);
+                  dispath(cashPostAction.setCashPost(array))
+                  dispath(renderStatusAction.setStatusRender(false))
+                      }).catch(() => setArray([]))
+        }
+        
+       
     },[array.length,flagReduxStatusRender])
 
 
@@ -55,17 +75,19 @@ export default function Posts({arrayPosts}) {
        
     }
 
-    async function createComment(id,text) {
-
+    async function callbackSearch(keyword) {
+        setSearch(true)
+        setKeywords(keyword)
+        dispath(renderStatusAction.setStatusRender(true))
+       
     }
 
-    async function callbackSearch(str) {
-        console.log(`search: ${str}`)
+    function resetSearch(){
+        dispath(renderStatusAction.setStatusRender(true))
     }
 
     function callbackPaginator(page){
         dispath(currentPageAction.setCurrentPage(page))
-        console.log(page);
         dispath(renderStatusAction.setStatusRender(true))
     }
 
@@ -73,9 +95,10 @@ export default function Posts({arrayPosts}) {
     
 
     return <div className = "post-area">  
-            <ModalWindow active={activeModal} component={addForm} setActive={setActiveModal}></ModalWindow>
+            <ModalWindow active={activeModal} closeArea={true} component={addForm} setActive={setActiveModal}></ModalWindow>
             <div className="action-place">
-                <button onClick={() => setActiveModal(true)}>Add posts</button>
+                <button disabled = {currentUser === 'unauthorized'} onClick={() => setActiveModal(true)}>Add posts</button>
+                <button onClick={resetSearch}>Reset</button>
                 <SearchComponent callbackFn={callbackSearch}></SearchComponent>
             </div>
             <div className="post-place">

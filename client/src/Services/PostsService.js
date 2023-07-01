@@ -74,4 +74,42 @@ export default class PostsService {
         }) 
     }    
 
+    async updateComment(commentForUpdate){
+
+        const response = await fetch(this.#main_url + `comment/${commentForUpdate.id}`,{
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(commentForUpdate)
+        }) 
+        const data = await response.json()  
+        return data 
+    }
+
+    async searchPost(keywords){
+            const response = await fetch(this.#main_url + `post/search/${keywords}`,{
+            method: "GET"    
+        })
+        const data = await response.json()
+        return data;  
+    }
+
+
+
+//     FILTER/SEARCH POSTS BY KEYWORD
+// url MAIN_URL + 'post/search/${keyWord}'
+// method: get
+// response: [
+//     {
+//         id: <number>,
+//         title: <string>,
+//         username: <string>
+//         likes: <Array<string>> //usernames
+//         dislikes: <Array<string>> //usernames
+//         imageSrc: <string> //path
+//         date: <number>,
+//         comments: <Array<Comment>>
+//     }
+//     ...
+// ]
+
 }

@@ -10,7 +10,7 @@ const SearchComponent = ({callbackFn}) => {
     }
 
     return <div><form id = "search-form-id" onSubmit={submitFn}>
-            <input name = "search-string" type = "text" placeholder="Search..."></input>
+            <input name = "search-string" type = "text" placeholder="Search..." required></input>
             <button type="submit">Go</button>
         </form></div>
 }

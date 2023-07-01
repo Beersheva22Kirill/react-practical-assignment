@@ -1,1 +1,1 @@
-[{"id":1,"text":"Coment 1","postId":1,"username":"Kirill","likes":[],"dislikes":[],"date":"1688138666396"},{"id":2,"text":"Coment 2","postId":1,"username":"Kirill","likes":[],"dislikes":[],"date":"1688138673902"}]
+[{"id":9,"text":"kikikikikikikikiki\nkkikikikiik\njnjnjnjn","postId":1,"username":"Vika","likes":["Vika"],"dislikes":["Vika","unauthorized"],"date":"1688152458068"},{"id":10,"text":"kikikikikikikikiki\nkkikikikiik\njnjnjnjn","postId":2,"username":"Vika","likes":["Vika","Kirill"],"dislikes":["Kirill"],"date":"1688152548614"}]

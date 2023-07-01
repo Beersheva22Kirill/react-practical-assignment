@@ -28,7 +28,7 @@ align-items: center;
 .post-thumbnails{
     margin: 10px;
     border-style: dotted;
-    width: 20vw;
+    min-width: 25vw;
     display:flex; 
     flex-direction:column;
     align-items:center;
@@ -146,3 +146,45 @@ align-items: center;
     cursor: pointer;
 }
 /* end pagination */
+
+/* comments */
+
+  .comment-place{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title-comment{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+  }
+
+  .title-information{
+    margin-right: 5px;
+  }
+
+  .text-comment-place{
+    overflow: hidden;
+    width: 80%;
+  }
+
+  .text-comment{
+    word-wrap: break-word;
+  }
+
+  .rating-section{
+    width: 50%;
+    display: flex;
+    justify-content: left;
+  }
+  
+  .control-section{
+    width: 50%;
+    display: flex;
+    justify-content: right;
+  }
+
+  .button-control{
+    margin-right: 10px;
+  }

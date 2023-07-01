@@ -6,9 +6,11 @@ import CommentsBoard from "./ComentBoard";
 import { postService } from "../Config/service-config";
 import { useDispatch } from "react-redux";
 import { renderStatusAction } from "../Redux/slices/RenderStatusSlice"
+import { toDateTimeISOString } from "../utils/dateFuntion";
 
-export default function Post ({post,callBackAddComment}) {
-    
+export default function Post ({post}) {
+    const datePost = toDateTimeISOString(post.date)
+   
     const dispath = useDispatch();
 
     const currentUser = useSelectorUserState()
@@ -30,9 +32,8 @@ export default function Post ({post,callBackAddComment}) {
     }
 
     async function likeDislikeFn(like){
-        const response = await postService.getPostById(post.id)
-        const postForUpdate = response.result
-      
+        let postForUpdate = JSON.stringify(post)
+        postForUpdate = JSON.parse(postForUpdate)
         if(like){
             const indexLike = postForUpdate.likes.findIndex(user => user === currentUser)
             indexLike > -1 ? postForUpdate.likes.splice(indexLike,1) : postForUpdate.likes.push(currentUser)
@@ -48,31 +49,19 @@ export default function Post ({post,callBackAddComment}) {
         const response = await postService.createComment(newComment)
         dispath(renderStatusAction.setStatusRender(true))
     }
-
-    function callbackLike(){
-
-    }
-
-    function callbackCommentLike(){
-
-    }
-
-    function callbackDelComment(){
-
-    }
     
 
     const addCommentForm = <FormAddComment currentUser={currentUser} id={post.id} title={post.title} callBackUploadComment={addComment}></FormAddComment>
-    const AllComments = <CommentsBoard array={post.comments} callBackDel={callbackDelComment} callBackLikeFn={callbackLike}></CommentsBoard>
+    const AllComments = <CommentsBoard title={post.title} array={post.comments}></CommentsBoard>
     
     return <div className="post-thumbnails">
-            <ModalWindow active={activeComments} component={addCommentForm} setActive={setActiveComments}></ModalWindow>
-            <ModalWindow active={activeCommentsBoard} component={AllComments} setActive={setActiveCommentsBoard}></ModalWindow>
+            <ModalWindow closeArea={true} active={activeComments} component={addCommentForm} setActive={setActiveComments}></ModalWindow>
+            <ModalWindow closeArea={true} active={activeCommentsBoard} component={AllComments} setActive={setActiveCommentsBoard}></ModalWindow>
             <div>
                 <button disabled = {autorName != currentUser} onClick={delPost}>Delete</button>
             </div>
             <div className="post-information-place">
-                <p className="post-date">{post.date}</p>
+                <p className="post-date">{datePost}</p>
                 <p className="post-author">{post.username}</p>
             </div>
             <div className="post-title-place">
@@ -91,13 +80,13 @@ export default function Post ({post,callBackAddComment}) {
             <div className="button-place">
                 
                 <div className="button-place-like">                  
-                    <button  onClick = {likeDislikeFn.bind(this,true)} className="button-like">Like</button>
-                    <button  onClick = {likeDislikeFn.bind(this,false)} className="button-dislike">Dislike</button>
+                    <button  disabled = {currentUser === 'unauthorized'} onClick = {likeDislikeFn.bind(this,true)} className="button-like">Like</button>
+                    <button  disabled = {currentUser === 'unauthorized'} onClick = {likeDislikeFn.bind(this,false)} className="button-dislike">Dislike</button>
                 </div>
-
+ 
                 <div className="button-place-coments">
                     <button onClick={() => setActiveCommentsBoard(true)} className="button-open-coments">Open</button>
-                    <button onClick={() => setActiveComments(true)} className="button-add-coments">Add</button>
+                    <button disabled = {currentUser === 'unauthorized'} onClick={() => setActiveComments(true)} className="button-add-coments">Add</button>
                 </div>
             </div>
     </div>
