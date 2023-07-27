@@ -30,13 +30,17 @@ export default function Autorized() {
                     alignItems:"center"   
                     }
 
-    const styleInput = {"width":"10vw"}
-    const styleButton = {"width":"10vw"}
+    const styleInput = {margin:'10px'}
+
+    const styleButton = {margin:'10px'}
+ 
+    const styleAnchor = {margin:'10px'}
 
     const autorizetionForm = <form id="form-autorized" style={style} onSubmit={submitFn}>
-                                <input name="user-name" style={styleInput} type="text" required></input>
-                                <a href="#" onClick={anchorWithoutAuth}>Enter without registration</a>
-                                <button style={styleButton} type="submit">Submit</button>
+                            <h2>Welcom to aplication</h2>
+                                <input className="auth-input"name="user-name" style={styleInput} type="text" placeholder="Enter user name" required ></input>
+                                <button className="auth-btn" style={styleButton} type="submit">Submit</button>
+                                <a style ={styleAnchor} href="#" onClick={anchorWithoutAuth}>Enter without registration</a>
                             </form>
 
     return <div>

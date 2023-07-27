@@ -26,10 +26,11 @@ export default class PostsService {
     async uploadImage(file, id){ //FEXME
         const response = await fetch(this.#main_url + `post/${id}/picture`,{
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(file)
+            //headers: {"Content-Type": "multipart/form-data"},
+            body: file
         }) 
-        const data = await response.json()   
+        const data = await response.json() 
+        return data;  
     }
 
     async deletePost(id){
@@ -92,24 +93,5 @@ export default class PostsService {
         const data = await response.json()
         return data;  
     }
-
-
-
-//     FILTER/SEARCH POSTS BY KEYWORD
-// url MAIN_URL + 'post/search/${keyWord}'
-// method: get
-// response: [
-//     {
-//         id: <number>,
-//         title: <string>,
-//         username: <string>
-//         likes: <Array<string>> //usernames
-//         dislikes: <Array<string>> //usernames
-//         imageSrc: <string> //path
-//         date: <number>,
-//         comments: <Array<Comment>>
-//     }
-//     ...
-// ]
 
 }

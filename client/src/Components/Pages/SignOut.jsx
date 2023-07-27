@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { userStateAction } from "../../Redux/slices/AuthorizedSlice";
+import { cloneElement } from "react";
 
 export default function SignOut() {
     const dispath = useDispatch();
@@ -9,7 +10,7 @@ export default function SignOut() {
    }
 
     
-    return  <div>
+    return  <div style={{textAlign:"center"}}>
                 <button onClick={callBackFn}>Confirm exit</button>
             </div>
 }

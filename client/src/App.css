@@ -1,6 +1,33 @@
-.nav-li{
-    margin: 3vw;
+body{
+    background-color: cornsilk;
 }
+
+.nav-li{
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    list-style-type: none;
+    font-size: 1.3em;
+    
+}
+
+.li-navlink{
+ text-decoration: none;
+}
+
+
+.modal_place_window{
+    width: 83vw;
+    top: 10%;
+    left: 4%;
+    position: absolute;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    cursor: default;
+    padding: 31px 15px;
+}
+
 .post-area {
 display: flex;
 flex-direction: column;
@@ -13,22 +40,28 @@ align-items: center;
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
+    align-items: baseline;
 }
 
 
 .post-place{
     display: flex;
-    width: 80vw;
+    width: 90vw;
     flex-wrap: wrap;
     justify-content: space-around;
-    height: 70vh;
+    height: 80vh;
     overflow-y: auto;
 }
 
 .post-thumbnails{
+    box-shadow:5px 2px 2px grey;
+    background-color: antiquewhite;
     margin: 10px;
-    border-style: dotted;
-    min-width: 25vw;
+    border-style: groove;
+    min-width: 80vw;
+    max-width: 80vw;
+    min-height: 40vh;
+    max-height: 40vh;
     display:flex; 
     flex-direction:column;
     align-items:center;
@@ -36,41 +69,70 @@ align-items: center;
 
 .post-information-place{
     width:100%; 
+    min-height: 10%;
     display:flex; 
     align-items: center;
     justify-content:center;
 }
 
-.post-date{
-    margin:10px
+.button-top-place{
+    display: flex;
+    justify-content: right;
+    margin-right: 10px;
+    margin-top: 3px;
+    width:100%; 
+    min-height: 10%;
 }
 
-.post-authot{
-    margin:10px
+.post-date{
+    margin: 0;
+    margin-left:10px
+}
+
+.post-author{
+    margin: 0;
+    margin-left:10px
 }
 
 .post-title-place{
     width: 100%;
+    min-height: 10%;
     display: flex;
     justify-content: space-around;
+}
+.post-title{
+    margin: 0;
+    font-size: 1.3em;
 }
 
 .image-thumbnaills-place{
     display: flex;
     justify-content: center;
-    width: 100%;
+    max-width: 100%;
+    min-height: 40%;
+    max-height: 40%;
+}
+
+.image-thumbnaills{
+    max-width: 100%;
 }
 
 .post-comments-place{
     width: 100%;
+    min-height: 10%;
     display: flex;
     justify-content: space-around;
+}
+
+.count-comments{
+    margin: 0;
 }
 
 .like-dislike-place{
     display: flex;
     justify-content: space-around;
     width: 100%;
+    min-height: 10%;
     display:flex;
     align-items:center;
     
@@ -88,24 +150,38 @@ align-items: center;
     margin-right: 10px;
 }
 
+.img-like-dislike:hover{
+    cursor: pointer;
+}
+
+
 .button-place{
     width: 100%;
+    min-height: 10%;
     display: flex;
+    flex-direction: row;
+    align-items: baseline;
 }
 
 .button-place-like{
     width: 50%;
+    min-height: 10%;
     display: flex;
     justify-content: left;
+    margin-bottom: 10px;
 }
 
 .button-place-coments{
     width: 50%;
     display: flex;
     justify-content: right;
+    margin-bottom: 10px;
 }
 
 .button-open-coments{
+    margin-right: 10px;
+}
+.button-add-coments{
     margin-right: 10px;
 }
 .button-like{
@@ -141,7 +217,7 @@ align-items: center;
 }
 
 .item-of-pages:hover{
-    background-color: aquamarine;
+    background-color: antiquewhite;
     transition: 1s;
     cursor: pointer;
 }
@@ -169,9 +245,13 @@ align-items: center;
     width: 80%;
   }
 
-  .text-comment{
+
+  .text-comments{
     word-wrap: break-word;
+    width:95%
   }
+
+
 
   .rating-section{
     width: 50%;
@@ -180,11 +260,40 @@ align-items: center;
   }
   
   .control-section{
+    margin-top: 5px;
     width: 50%;
     display: flex;
-    justify-content: right;
+    justify-content: left;
   }
 
   .button-control{
     margin-right: 10px;
+  }
+
+  @media(min-width: 650px) {
+    .post-thumbnails{
+        border-style: groove ;
+        min-width: 30vw;
+        max-width: 30vw;
+        min-height: 60vh;
+        max-height: 60vh;
+       
+    }
+  }
+
+  @media(min-width: 1000px) {
+    .post-thumbnails{
+ 
+        min-width: 25vw;
+        max-width: 25vw;
+        min-height: 40vh;
+        max-height: 40vh;
+        
+    }
+
+    .modal_place_window{
+        width: 40vw;
+        top: 10%;
+        left: 30%;
+    }
   }

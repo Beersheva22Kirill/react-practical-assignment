@@ -14,20 +14,9 @@ export default function ModalWindow({component,active,setActive,closeArea}){
                    cursor: "pointer",
                 }
 
-    const styleModal = {position: "absolute",
-                        width: "75vw",
-                        height: "73vh",
-                        top: "8%",
-                        left: "8%",
-                        borderRadius: "10px",
-                        backgroundColor: "rgb(255, 255, 255)",
-                        cursor: "default",
-                        padding: "31px 15px",
-                        }
-
     return <div style={modalPlace} hidden = {!active}>
-            <div style={style} onClick={() => closeArea ? setActive(false) : setActive(true)} hidden = {!active}>
-                <div style={styleModal} onClick={(event) => event.stopPropagation()}>
+            <div  style={style} onClick={() => closeArea ? setActive(false) : setActive(true)} hidden = {!active}>
+                <div className = "modal_place_window"  onClick={(event) => event.stopPropagation()}>
                 {component}
                 </div>
             </div>

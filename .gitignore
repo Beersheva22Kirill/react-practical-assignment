@@ -25,3 +25,5 @@
 /client/yarn-error.log*
 /client/.idea
 /server/.idea
+/server/public
+/server/db

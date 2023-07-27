@@ -7,6 +7,7 @@ import { postService } from "../Config/service-config";
 import { useDispatch } from "react-redux";
 import { renderStatusAction } from "../Redux/slices/RenderStatusSlice"
 import { toDateTimeISOString } from "../utils/dateFuntion";
+import FormPost from "./Forms/FormPost";
 
 export default function Post ({post}) {
     const datePost = toDateTimeISOString(post.date)
@@ -19,10 +20,15 @@ export default function Post ({post}) {
 
     const [activeComments, setActiveComments] = useState(false)
     const [activeCommentsBoard,setActiveCommentsBoard] = useState(false)
+    const [activeUpdatePost,setActiveUpdatePost] = useState(false)
 
     useMemo(() => setId(post.id),[])
     useMemo(() => setAuthorName(post.username),[])
 
+    const style_like = { width:'25px',
+                        marginRight:'6px'            }
+
+    const style_dislike = { width:'25px'}
 
 
     async function delPost (){
@@ -30,6 +36,7 @@ export default function Post ({post}) {
         await postService.deletePost(post.id)
         dispath(renderStatusAction.setStatusRender(true))
     }
+
 
     async function likeDislikeFn(like){
         let postForUpdate = JSON.stringify(post)
@@ -41,23 +48,39 @@ export default function Post ({post}) {
             const indexDislike = postForUpdate.dislikes.findIndex(user => user === currentUser)
             indexDislike > -1 ? postForUpdate.dislikes.splice(indexDislike,1) : postForUpdate.dislikes.push(currentUser)
         }
-        await postService.updatePost(post.id,postForUpdate)
+        updatePost(post.id,postForUpdate)
+    }
+
+    async function updatePost(newPost,id){
+        await postService.updatePost(id,newPost)
         dispath(renderStatusAction.setStatusRender(true))
+    }
+
+    async function uploadImage(file,id) {
+        const response = await postService.uploadImage(file,id)
+        setActiveUpdatePost(false);
+        dispath(renderStatusAction.setStatusRender(true))
+        return response.status = "success" ? response.result : response
+       
     }
 
     async function addComment(newComment){
         const response = await postService.createComment(newComment)
+        setActiveComments(false)
         dispath(renderStatusAction.setStatusRender(true))
     }
     
 
     const addCommentForm = <FormAddComment currentUser={currentUser} id={post.id} title={post.title} callBackUploadComment={addComment}></FormAddComment>
     const AllComments = <CommentsBoard title={post.title} array={post.comments}></CommentsBoard>
+    const formUpdate = <FormPost post={post} callBackFn={updatePost} callBackUploadImage={uploadImage} currentUser={currentUser}></FormPost>
     
     return <div className="post-thumbnails">
+        <ModalWindow closeArea={true} active={activeUpdatePost} component={formUpdate} setActive={setActiveUpdatePost}></ModalWindow>
             <ModalWindow closeArea={true} active={activeComments} component={addCommentForm} setActive={setActiveComments}></ModalWindow>
             <ModalWindow closeArea={true} active={activeCommentsBoard} component={AllComments} setActive={setActiveCommentsBoard}></ModalWindow>
-            <div>
+            <div className="button-top-place">
+                <button disabled = {autorName != currentUser} onClick={() => setActiveUpdatePost(true)}>Update</button>
                 <button disabled = {autorName != currentUser} onClick={delPost}>Delete</button>
             </div>
             <div className="post-information-place">
@@ -65,23 +88,33 @@ export default function Post ({post}) {
                 <p className="post-author">{post.username}</p>
             </div>
             <div className="post-title-place">
-                <h1>{post.title}</h1>
+                <h1 className="post-title">{post.title}</h1>
             </div>
             <div className = "image-thumbnaills-place">
-                <img  src="#"></img>
+                <img className="image-thumbnaills" 
+                src = {post.imageSrc ? post.imageSrc : process.env.PUBLIC_URL + "/image/noimage.png"}></img>
             </div>
             <div className="post-comments-place">
-                <p>Count comments: {post.comments.length}</p>
+                <p className="count-comments">Count comments: {post.comments.length}</p>
             </div>
             <div className="like-dislike-place">
-                <p className="likes-place">{post.likes.length}</p>
-                <p className="dislikes-place">{post.dislikes.length}</p>
+                <p className="likes-place">{post.likes.length} likes</p>
+                <p className="dislikes-place">{post.dislikes.length} dislikes</p>
             </div>
             <div className="button-place">
                 
-                <div className="button-place-like">                  
-                    <button  disabled = {currentUser === 'unauthorized'} onClick = {likeDislikeFn.bind(this,true)} className="button-like">Like</button>
-                    <button  disabled = {currentUser === 'unauthorized'} onClick = {likeDislikeFn.bind(this,false)} className="button-dislike">Dislike</button>
+                <div className="button-place-like"> 
+                <div style={{width: '15px', height: '15px'}}>
+                
+                </div>  
+                    <img  className="img-like-dislike" 
+                        hidden = {currentUser === 'unauthorized'} 
+                        onClick = {likeDislikeFn.bind(this,true)} style = {style_like} 
+                        src = {process.env.PUBLIC_URL + `/image/icons/${post.likes.includes(currentUser)? "like.png" : "like_nopress.png"}`}></img> 
+                    <img className="img-like-dislike" 
+                        hidden = {currentUser === 'unauthorized'} 
+                        onClick = {likeDislikeFn.bind(this,false)} style = {style_dislike} 
+                        src = {process.env.PUBLIC_URL + `/image/icons/${post.dislikes.includes(currentUser)? "dislike.png" : "dislike_nopress.png"}`}></img>              
                 </div>
  
                 <div className="button-place-coments">

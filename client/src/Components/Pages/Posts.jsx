@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSelectorCashPosts, useSelectorCurrentPageStatus, useSelectorRenderStatus, useSelectorUserState } from "../../Redux/store";
+import { useSelectorCurrentPageStatus, useSelectorRenderStatus, useSelectorUserState } from "../../Redux/store";
 import PostBoard from "../PostBoard";
 import ModalWindow from "../common/ModalWindow";
-import FormAddPost from "../Forms/FormAddPost";
+import FormPost from "../Forms/FormPost";
 import SearchComponent from "../common/SearchComponent";
 import { postService } from "../../Config/service-config";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ import { currentPageAction } from "../../Redux/slices/CurrentPageSlice";
 import PageController from "../common/PageController";
 import { renderStatusAction } from "../../Redux/slices/RenderStatusSlice";
 
-async function getPostByPage(page) {
+async function getPostByPage(page = 1) {
     const res = await postService.getPostsByPage(page);
     return res  
 }
@@ -33,6 +33,7 @@ export default function Posts({arrayPosts}) {
     const [array, setArray] = useState([]) 
     const [totalPages, setTotalPages] = useState(0)
 
+
     const dispath = useDispatch();
     
     useEffect(()=> {
@@ -51,7 +52,7 @@ export default function Posts({arrayPosts}) {
                 dispath(currentPageAction.setCurrentPage(response.page))
                   setArray(response.result);
                   console.log(array);
-                  dispath(cashPostAction.setCashPost(array))
+                 dispath(cashPostAction.setCashPost(array))
                   dispath(renderStatusAction.setStatusRender(false))
                       }).catch(() => setArray([]))
         }
@@ -61,7 +62,7 @@ export default function Posts({arrayPosts}) {
 
 
 
-    async function newPost(post) {
+    async function newPost(post,id) {
         const response = await postService.createPost(post)
         dispath(renderStatusAction.setStatusRender(true))
         return response.status = "success" ? response.result : response
@@ -70,6 +71,7 @@ export default function Posts({arrayPosts}) {
 
     async function uploadImage(file,id) {
         const response = await postService.uploadImage(file,id)
+        setActiveModal(false);
         dispath(renderStatusAction.setStatusRender(true))
         return response.status = "success" ? response.result : response
        
@@ -83,6 +85,7 @@ export default function Posts({arrayPosts}) {
     }
 
     function resetSearch(){
+        setSearch(false)
         dispath(renderStatusAction.setStatusRender(true))
     }
 
@@ -91,14 +94,16 @@ export default function Posts({arrayPosts}) {
         dispath(renderStatusAction.setStatusRender(true))
     }
 
-    const addForm = <FormAddPost currentUser={currentUser} callBackFn={newPost} callBackUploadImage={uploadImage}></FormAddPost>
+ 
+
+    const addForm = <FormPost post={undefined} currentUser={currentUser} callBackFn={newPost} callBackUploadImage={uploadImage}></FormPost>
     
 
     return <div className = "post-area">  
             <ModalWindow active={activeModal} closeArea={true} component={addForm} setActive={setActiveModal}></ModalWindow>
             <div className="action-place">
-                <button disabled = {currentUser === 'unauthorized'} onClick={() => setActiveModal(true)}>Add posts</button>
-                <button onClick={resetSearch}>Reset</button>
+                <button style={{marginRight:'10px'}} disabled = {currentUser === 'unauthorized'} onClick={() => setActiveModal(true)}>Add posts</button>
+                <button style={{marginRight:'10px'}} onClick={() => resetSearch()}>Reset</button>
                 <SearchComponent callbackFn={callbackSearch}></SearchComponent>
             </div>
             <div className="post-place">
