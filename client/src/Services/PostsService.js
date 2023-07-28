@@ -23,10 +23,9 @@ export default class PostsService {
         return data
     }
 
-    async uploadImage(file, id){ //FEXME
+    async uploadImage(id,file){
         const response = await fetch(this.#main_url + `post/${id}/picture`,{
             method: 'POST',
-            //headers: {"Content-Type": "multipart/form-data"},
             body: file
         }) 
         const data = await response.json() 

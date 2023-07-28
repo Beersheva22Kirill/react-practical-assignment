@@ -35,8 +35,13 @@ export default function FormPost ({post,currentUser, callBackFn, callBackUploadI
         const formDataPost = new FormData(form.current);
         newPost.title = formDataPost.get("title-post");
         newPost.username = formDataPost.get("name-author")
-        const newPostObj = await callBackFn(newPost,post.id)     
-        await callBackUploadImage(formDataPost,post ? post.id : newPostObj.id)
+        let newPostObj;
+        if(post){
+            newPostObj = await callBackFn(post.id, newPost) 
+        } else {
+            newPostObj = await callBackFn(newPost)  
+        }    
+        await callBackUploadImage(post ? post.id : newPostObj.id,formDataPost)
         form.current.reset();
         setImage(defaultImage)
     }

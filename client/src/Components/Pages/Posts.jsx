@@ -62,7 +62,7 @@ export default function Posts({arrayPosts}) {
 
 
 
-    async function newPost(post,id) {
+    async function newPost(post) {
         const response = await postService.createPost(post)
         dispath(renderStatusAction.setStatusRender(true))
         return response.status = "success" ? response.result : response

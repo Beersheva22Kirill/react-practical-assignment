@@ -51,7 +51,7 @@ export default function Post ({post}) {
         updatePost(post.id,postForUpdate)
     }
 
-    async function updatePost(newPost,id){
+    async function updatePost(id,newPost){
         await postService.updatePost(id,newPost)
         dispath(renderStatusAction.setStatusRender(true))
     }

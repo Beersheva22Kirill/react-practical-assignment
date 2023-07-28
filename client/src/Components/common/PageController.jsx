@@ -9,7 +9,7 @@ const PageController = ({totalpages,currentPage,callback}) => {
     useEffect(() => {
         const count = getNumberOfPage(totalpages,currentPage);
         setNumberOfPage(count)
-    },[totalpages,currentPage])
+    },[totalpages,currentPage,startIndex])
 
         
     function getNumberOfPage(totalpages,currentPage) {
@@ -25,7 +25,7 @@ const PageController = ({totalpages,currentPage,callback}) => {
 
     return <ul className = "list-of-pages">
                 <li onClick={() => callback(--currentPage)} className = "item-of-pages" hidden = {currentPage == 1}>Previus</li>
-                <li className = "item-of-pages" hidden = {startIndex > 1}>1 ..</li>
+                <li onClick={() => callback(1)} className = "item-of-pages" hidden = {startIndex == 1}>1 ..</li>
             {numberOfPage.map((number) => <li key={number} onClick = {() => callback(number)} value = {number} className = "item-of-pages" > {number} </li>)}
                 <li onClick = {() => callback(totalpages)} className = "item-of-pages">{totalpages}</li> 
                 <li onClick={() => callback(++currentPage)} className = "item-of-pages">Next</li>   
